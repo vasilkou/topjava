@@ -3,11 +3,11 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * GKislin
@@ -28,8 +28,31 @@ public class UserMealsUtil {
 //        .toLocalTime();
     }
 
-    public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        // TODO return filtered list with correctly exceeded field
-        return null;
+    public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        // Counts eaten calories of every meal per day
+        Map<LocalDate, Integer> eatenCaloriesPerDay = new HashMap<>();
+        for (UserMeal meal : mealList) {
+            LocalDate date = meal.getDateTime().toLocalDate();
+            if (eatenCaloriesPerDay.containsKey(date)) {
+                int calories = eatenCaloriesPerDay.get(date);
+                calories += meal.getCalories();
+                eatenCaloriesPerDay.put(date, calories);
+            } else {
+                eatenCaloriesPerDay.put(date, meal.getCalories());
+            }
+        }
+
+        // Filters meals by LocalTime and adds them to mealWithExceedList
+        List<UserMealWithExceed> mealWithExceedList = new ArrayList<>();
+        for (UserMeal meal : mealList) {
+            LocalDateTime dateAndTime = meal.getDateTime();
+            boolean passFilter = TimeUtil.isBetween(dateAndTime.toLocalTime(), startTime, endTime);
+            if (passFilter) {
+                int eatenCalories = eatenCaloriesPerDay.get(dateAndTime.toLocalDate());
+                mealWithExceedList.add(new UserMealWithExceed(dateAndTime, meal.getDescription(), meal.getCalories(), eatenCalories > caloriesPerDay));
+            }
+        }
+
+        return mealWithExceedList;
     }
 }
