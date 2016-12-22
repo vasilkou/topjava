@@ -10,7 +10,8 @@ import java.util.List;
  * 15.06.2015.
  */
 public interface MealService {
-    Meal save(Meal meal);
+    // null if not found or wrong userId
+    Meal save(Meal meal, int userId);
 
     // false if not found or wrong userId
     void delete(int id, int userId);

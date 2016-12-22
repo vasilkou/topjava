@@ -44,7 +44,7 @@ public class MealServlet extends HttpServlet {
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.valueOf(request.getParameter("calories")),
-                AuthorizedUser.id());
+                null);
 
         LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
         controller.save(meal);
