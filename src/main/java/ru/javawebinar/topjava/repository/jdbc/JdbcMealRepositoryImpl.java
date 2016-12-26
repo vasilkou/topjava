@@ -37,7 +37,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Autowired
     public JdbcMealRepositoryImpl(DataSource dataSource) {
         this.insertMeal = new SimpleJdbcInsert(dataSource)
-                .withTableName("MEALS")
+                .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
     }
 

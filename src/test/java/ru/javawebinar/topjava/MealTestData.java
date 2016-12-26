@@ -29,12 +29,5 @@ public class MealTestData {
     public static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2015, Month.JUNE, 1, 14, 0);
     public static final LocalDateTime END_DATE_TIME = LocalDateTime.of(2015, Month.JUNE, 3, 21, 0);
 
-    public static final ModelMatcher<Meal> MATCHER = new ModelMatcher<>(
-            (expected, actual) -> expected == actual ||
-                    (Objects.equals(expected.getId(), actual.getId())
-                            && Objects.equals(expected.getDateTime(), actual.getDateTime())
-                            && Objects.equals(expected.getDescription(), actual.getDescription())
-                            && Objects.equals(expected.getCalories(), actual.getCalories())
-                    )
-    );
+    public static final ModelMatcher<Meal> MATCHER = new ModelMatcher<>();
 }
