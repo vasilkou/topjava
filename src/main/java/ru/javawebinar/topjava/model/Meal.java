@@ -16,7 +16,6 @@ public class Meal extends BaseEntity {
     private int calories;
 
     public Meal() {
-        super();
     }
 
     public Meal(Meal meal) {
