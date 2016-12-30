@@ -1,3 +1,7 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/010ab387d8e74f69893a0cdee1803010)](https://www.codacy.com/app/yury-vasilkou/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vasilkou/topjava&amp;utm_campaign=Badge_Grade)
+[![Dependency Status](https://dependencyci.com/github/vasilkou/topjava/badge)](https://dependencyci.com/github/vasilkou/topjava)
+[![Build Status](https://travis-ci.org/vasilkou/topjava.svg?branch=master)](https://travis-ci.org/vasilkou/topjava)
+
 Java Enterprise Online Project 
 ===============================
 Наиболее востребованные технологии /инструменты / фреймворки Java Enterprise:
