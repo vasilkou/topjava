@@ -1,6 +1,6 @@
 package ru.javawebinar.topjava.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -32,12 +32,12 @@ public class Meal extends BaseEntity {
     public static final String UPDATE = "Meal.update";
     public static final String DELETE = "Meal.delete";
 
-    @Column(name = "date_time", columnDefinition = "timestamp", nullable = false)
+    @Column(name = "date_time", columnDefinition = "TIMESTAMP NOT NULL")
     @NotNull
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
-    @NotEmpty
+    @NotBlank
     private String description;
 
     @Column(name = "calories", nullable = false)
@@ -45,6 +45,8 @@ public class Meal extends BaseEntity {
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
     private User user;
 
     public Meal() {

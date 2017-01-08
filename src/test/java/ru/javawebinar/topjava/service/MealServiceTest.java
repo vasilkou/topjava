@@ -4,12 +4,10 @@ import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
+import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,13 +16,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -49,29 +46,22 @@ public class MealServiceTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Rule
-    public TestRule watchman = new TestWatcher() {
-        private Instant start;
-        private Instant end;
-
+    public Stopwatch stopwatch = new Stopwatch() {
         @Override
-        protected void starting(Description description) {
-            start = Instant.now();
-        }
-
-        @Override
-        protected void finished(Description description) {
-            end = Instant.now();
-            long duration = Duration.between(start, end).toMillis();
-            LOG.info("Duration: " + duration + "ms");
-            TEST_PROFILER_HISTORY.add(description.getMethodName() + " - " + duration + "ms");
+        protected void finished(long nanos, Description description) {
+            logInfo(description, nanos);
         }
     };
 
+    private static void logInfo(Description description, long nanos) {
+        String logBuf = String.format("%s - %d ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+        TEST_PROFILER_HISTORY.add(logBuf);
+        LOG.info(logBuf);
+    }
+
     @AfterClass
     public static void printTestProfilerHistory() {
-        System.out.println("\r\n********** Tests duration **********");
-        TEST_PROFILER_HISTORY.forEach(System.out::println);
-        System.out.println("********** Tests duration **********\r\n");
+        TEST_PROFILER_HISTORY.forEach(LOG::info);
     }
 
     @Test
