@@ -4,7 +4,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
 
-@ActiveProfiles({Profiles.ACTIVE_DB, Profiles.JPA})
+@ActiveProfiles(Profiles.JPA)
 public class MealServiceJpaTest extends MealServiceTest {
     public MealServiceJpaTest() {
         log = LoggerFactory.getLogger(MealServiceJpaTest.class);
