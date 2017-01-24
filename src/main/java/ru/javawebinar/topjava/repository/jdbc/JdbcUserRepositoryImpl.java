@@ -127,7 +127,8 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                         return roles;
                     });
         }
-        return users.stream().peek(user -> user.setRoles(map.get(user.getId()))).collect(Collectors.toList());
+        users.forEach(user -> user.setRoles(map.get(user.getId())));
+        return users;
     }
 
     private Set<Role> createNewRoleSet(Role role) {

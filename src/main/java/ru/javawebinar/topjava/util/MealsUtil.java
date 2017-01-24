@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.to.MealWithExceed;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +23,12 @@ public class MealsUtil {
     public static List<MealWithExceed> getFilteredWithExceeded(Collection<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
-                        Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
+                        Collectors.groupingBy(new Function<Meal, LocalDate>() {
+                            @Override
+                            public LocalDate apply(Meal meal1) {
+                                return meal1.getDate();
+                            }
+                        }, Collectors.summingInt(Meal::getCalories))
 //                      Collectors.toMap(Meal::getDate, Meal::getCalories, Integer::sum)
                 );
 
