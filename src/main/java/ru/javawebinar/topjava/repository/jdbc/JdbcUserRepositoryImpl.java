@@ -101,7 +101,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         User user = DataAccessUtils.singleResult(
                 jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id)
         );
-        return user != null ? setRoles(user) : null;
+        return setRoles(user);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         User user = DataAccessUtils.singleResult(
                 jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email)
         );
-        return user != null ? setRoles(user) : null;
+        return setRoles(user);
     }
 
     @Override
@@ -138,6 +138,9 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     }
 
     private User setRoles(User user) {
+        if (user == null) {
+            return null;
+        }
         Set<Role> roles = jdbcTemplate
                 .queryForList("SELECT role FROM user_roles WHERE user_id=?", String.class, user.getId())
                 .stream()
