@@ -1,7 +1,6 @@
-package ru.javawebinar.topjava.web;
+package ru.javawebinar.topjava.util;
 
 import org.springframework.format.Formatter;
-import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;

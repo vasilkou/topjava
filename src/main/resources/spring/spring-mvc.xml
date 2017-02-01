@@ -10,7 +10,7 @@
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>
-                <bean class="ru.javawebinar.topjava.web.LocalDateTimeFormatter"/>
+                <bean class="ru.javawebinar.topjava.util.LocalDateTimeFormatter"/>
             </set>
         </property>
     </bean>
