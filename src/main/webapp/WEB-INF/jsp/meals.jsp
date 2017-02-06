@@ -15,31 +15,37 @@
             <h3><spring:message code="meals.title"/></h3>
 
             <div class="view-box">
-                <form class="form-horizontal" method="post" action="meals/filter">
+                <form class="form-horizontal" method="post" id="filterForm">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="startDate"><spring:message code="meals.startDate"/>:</label>
                         <div class="col-sm-2">
-                            <input type="date" class="form-control" name="startDate" id="startDate" <%--value="${param.startDate}--%>>
+                            <input type="date" class="form-control" name="startDate" id="startDate">
                         </div>
                         <label class="control-label col-sm-2" for="endDate"><spring:message code="meals.endDate"/>:</label>
                         <div class="col-sm-2">
-                            <input type="date" class="form-control" name="endDate" id="endDate" <%--value="${param.endDate}--%>>
+                            <input type="date" class="form-control" name="endDate" id="endDate">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="startTime"><spring:message code="meals.startTime"/>:</label>
                         <div class="col-sm-2">
-                            <input type="time" class="form-control" name="startTime" id="startTime" <%--value="${param.startTime}--%>>
+                            <input type="time" class="form-control" name="startTime" id="startTime">
                         </div>
                         <label class="control-label col-sm-2" for="endTime"><spring:message code="meals.endTime"/>:</label>
                         <div class="col-sm-2">
-                            <input type="time" class="form-control" name="endTime" id="endTime" <%--value="${param.endTime}--%>>
+                            <input type="time" class="form-control" name="endTime" id="endTime">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-6"></div>
                         <div class="col-sm-1">
                             <button class="btn btn-primary" type="submit"><spring:message code="meals.filter"/></button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6"></div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-primary" onclick="clearFilter()"><spring:message code="common.cancel"/></button>
                         </div>
                     </div>
                 </form>
