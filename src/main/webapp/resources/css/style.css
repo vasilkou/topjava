@@ -30,3 +30,8 @@ header, footer {
     padding: 5px 20px;
     margin: 6px 0;
 }
+
+.grayout {
+    opacity: 0.5; /* Real browsers */
+    filter: alpha(opacity = 50); /* MSIE */
+}

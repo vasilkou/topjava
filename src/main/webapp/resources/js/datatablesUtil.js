@@ -18,6 +18,19 @@ function makeEditable() {
     });
 }
 
+function enable(checkbox) {
+    var enabled = checkbox.is(':checked');
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl + checkbox.closest('tr').attr("id"),
+        data: {'enabled': enabled},
+        success: function () {
+            checkbox.closest('tr').toggleClass('grayout');
+            successNoty(enabled ? 'User enabled' : 'User disabled');
+        }
+    });
+}
+
 var filtered = false;
 
 function filter() {
