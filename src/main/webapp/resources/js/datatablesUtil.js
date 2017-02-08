@@ -8,58 +8,9 @@ function makeEditable() {
         return false;
     });
 
-    $('#filterForm').submit(function () {
-        filter();
-        return false;
-    });
-
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
     });
-}
-
-function enable(checkbox) {
-    var enabled = checkbox.is(':checked');
-    $.ajax({
-        type: "POST",
-        url: ajaxUrl + checkbox.closest('tr').attr("id"),
-        data: {'enabled': enabled},
-        success: function () {
-            checkbox.closest('tr').toggleClass('grayout');
-            successNoty(enabled ? 'User enabled' : 'User disabled');
-        }
-    });
-}
-
-var filtered = false;
-
-function filter() {
-    filtered = true;
-    updateTable();
-}
-
-function clearFilter() {
-    filtered = false;
-    $('#filterForm').trigger('reset');
-    updateTable();
-}
-
-function updateTable() {
-    if (filtered) {
-        var form = $('#filterForm');
-        $.ajax({
-            type: "POST",
-            url: ajaxUrl + "filter",
-            data: form.serialize(),
-            success: function (data) {
-                refreshTable(data);
-            }
-        });
-    } else {
-        $.get(ajaxUrl, function (data) {
-            refreshTable(data);
-        });
-    }
 }
 
 function refreshTable(data) {

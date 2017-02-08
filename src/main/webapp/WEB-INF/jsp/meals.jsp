@@ -109,7 +109,7 @@
                         <label for="description" class="control-label col-xs-3"><spring:message code="meals.description"/></label>
 
                         <div class="col-xs-9">
-                            <input type="test" class="form-control" id="description" name="description" placeholder="<spring:message code="meals.description"/>">
+                            <input type="text" class="form-control" id="description" name="description" placeholder="<spring:message code="meals.description"/>">
                         </div>
                     </div>
 
