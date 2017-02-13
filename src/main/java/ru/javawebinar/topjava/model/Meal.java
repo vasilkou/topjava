@@ -4,6 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,7 @@ public class Meal extends BaseEntity {
 
     @Column(name = "date_time", nullable = false)
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
@@ -40,8 +42,9 @@ public class Meal extends BaseEntity {
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @Range(min = 10, max = 5000)
-    private int calories;
+    @NotNull
+    @Range(min = 10, max = 5000, message = " must be between 10 and 5000")
+    private Integer calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -51,11 +54,11 @@ public class Meal extends BaseEntity {
     public Meal() {
     }
 
-    public Meal(LocalDateTime dateTime, String description, int calories) {
+    public Meal(LocalDateTime dateTime, String description, Integer calories) {
         this(null, dateTime, description, calories);
     }
 
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+    public Meal(Integer id, LocalDateTime dateTime, String description, Integer calories) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
@@ -70,7 +73,7 @@ public class Meal extends BaseEntity {
         return description;
     }
 
-    public int getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
@@ -90,7 +93,7 @@ public class Meal extends BaseEntity {
         this.description = description;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
