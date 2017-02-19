@@ -2,6 +2,7 @@ package ru.javawebinar.topjava;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
@@ -51,6 +52,10 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
 
     public UserTo getUserTo() {
         return userTo;
+    }
+
+    public static boolean checkAdmin() {
+        return get().getAuthorities().contains(Role.ROLE_ADMIN);
     }
 
     @Override
