@@ -43,18 +43,16 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
-    public void update(User user, int id) {
-        checkIdConsistent(user, id);
-        log.info("update " + user);
-        service.update(user);
+    public void update(UserTo userTo, int id) {
+        log.info("update " + userTo);
+        if (!AuthorizedUser.checkAdmin()) {
+            checkIdConsistent(userTo, id);
+        }
+        service.update(userTo);
     }
 
     public void update(UserTo userTo) {
-        log.info("update " + userTo);
-        if (!AuthorizedUser.checkAdmin()) {
-            checkIdConsistent(userTo, AuthorizedUser.id());
-        }
-        service.update(userTo);
+        update(userTo, AuthorizedUser.id());
     }
 
     public User getByMail(String email) {

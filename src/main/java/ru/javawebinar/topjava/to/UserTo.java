@@ -3,12 +3,15 @@ package ru.javawebinar.topjava.to;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.util.HasId;
 import ru.javawebinar.topjava.util.UserUtil;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Set;
 
 public class UserTo implements HasId, Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,6 +32,8 @@ public class UserTo implements HasId, Serializable {
     @NotNull
     private Integer caloriesPerDay = UserUtil.DEFAULT_CALORIES_PER_DAY;
 
+    private Set<Role> roles;
+
     public UserTo() {
     }
 
@@ -38,6 +43,12 @@ public class UserTo implements HasId, Serializable {
         this.email = email;
         this.password = password;
         this.caloriesPerDay = caloriesPerDay;
+        this.roles = Collections.emptySet();
+    }
+
+    public UserTo(Integer id, String name, String email, String password, int caloriesPerDay, Set<Role> roles) {
+        this(id, name, email, password, caloriesPerDay);
+        setRoles(roles);
     }
 
     @Override
@@ -87,6 +98,14 @@ public class UserTo implements HasId, Serializable {
         this.caloriesPerDay = caloriesPerDay;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "UserTo{" +
@@ -94,6 +113,7 @@ public class UserTo implements HasId, Serializable {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", caloriesPerDay='" + caloriesPerDay + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }

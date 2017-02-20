@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
+import static ru.javawebinar.topjava.util.UserUtil.asTo;
 
 public class AdminRestControllerTest extends AbstractControllerTest {
 
@@ -89,10 +90,23 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(REST_URL + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(asTo(updated))))
                 .andExpect(status().isOk());
 
         MATCHER.assertEquals(updated, userService.get(USER_ID));
+    }
+
+    @Test
+    public void testUpdateInvalid() throws Exception {
+        User updated = new User(USER);
+        updated.setName("");
+        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+        mockMvc.perform(put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(asTo(updated))))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 
     @Test
@@ -101,13 +115,25 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(expected))).andExpect(status().isCreated());
+                .content(JsonUtil.writeValue(asTo(expected))))
+                .andExpect(status().isCreated());
 
         User returned = MATCHER.fromJsonAction(action);
         expected.setId(returned.getId());
 
         MATCHER.assertEquals(expected, returned);
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, expected, USER), userService.getAll());
+    }
+
+    @Test
+    public void testCreateInvalid() throws Exception {
+        User expected = new User(null, "", "new@gmail.com", "newPass", 23000, Role.ROLE_USER, Role.ROLE_ADMIN);
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(asTo(expected))))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 
     @Test

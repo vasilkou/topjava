@@ -6,12 +6,16 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
+
+import static ru.javawebinar.topjava.util.ValidationUtil.bindingResultToString;
 
 /**
  * User: gkislin
@@ -44,6 +48,15 @@ public class ExceptionInfoHandler {
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
     public ErrorInfo bindingValidationError(HttpServletRequest req, ValidationException e) {
         return logAndGetErrorInfo(req, e, false);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    @Order(Ordered.HIGHEST_PRECEDENCE + 1)
+    public ErrorInfo bindingValidationError(HttpServletRequest req, MethodArgumentNotValidException e) {
+        BindingResult result = e.getBindingResult();
+        return bindingValidationError(req, new ValidationException(bindingResultToString(result)));
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
