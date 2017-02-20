@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="topjava" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -13,7 +14,12 @@
 <div class="jumbotron">
     <div class="container">
         <div class="shadow">
-            <h2>${userTo.name} <spring:message code="${register ? 'app.register' : 'app.profile'}"/></h2>
+            <h2>
+                <c:choose>
+                    <c:when test="${register}"><spring:message code="${'app.register'}"/></c:when>
+                    <c:otherwise>${userTo.name} <spring:message code="${'app.profile'}"/></c:otherwise>
+                </c:choose>
+            </h2>
 
             <div class="view-box">
                 <form:form modelAttribute="userTo" class="form-horizontal" method="post" action="${register ? 'register' : 'profile'}"

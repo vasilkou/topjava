@@ -32,7 +32,7 @@ public class UserTo implements HasId, Serializable {
     @NotNull
     private Integer caloriesPerDay = UserUtil.DEFAULT_CALORIES_PER_DAY;
 
-    private Set<Role> roles;
+    private Set<Role> roles = Collections.emptySet();
 
     public UserTo() {
     }
@@ -43,7 +43,6 @@ public class UserTo implements HasId, Serializable {
         this.email = email;
         this.password = password;
         this.caloriesPerDay = caloriesPerDay;
-        this.roles = Collections.emptySet();
     }
 
     public UserTo(Integer id, String name, String email, String password, int caloriesPerDay, Set<Role> roles) {
