@@ -25,6 +25,9 @@ $(function () {
         },
         "paging": false,
         "info": true,
+        "language": {
+            "url": "resources/localization/datatables-" + localeCode + ".json"
+        },
         "columns": [
             {
                 "data": "dateTime",
@@ -63,6 +66,8 @@ $(function () {
         },
         "initComplete": makeEditable
     });
+
+    $.datetimepicker.setLocale(localeCode);
 
     var startDate = $('#startDate');
     var endDate = $('#endDate');

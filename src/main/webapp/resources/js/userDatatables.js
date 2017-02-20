@@ -28,6 +28,9 @@ $(function () {
         },
         "paging": false,
         "info": true,
+        "language": {
+            "url": "resources/localization/datatables-" + localeCode + ".json"
+        },
         "columns": [
             {
                 "data": "name"
