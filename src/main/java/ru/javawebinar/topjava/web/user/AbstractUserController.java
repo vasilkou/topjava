@@ -45,9 +45,7 @@ public abstract class AbstractUserController {
 
     public void update(UserTo userTo, int id) {
         log.info("update " + userTo);
-        if (!AuthorizedUser.checkAdmin()) {
-            checkIdConsistent(userTo, id);
-        }
+        checkIdConsistent(userTo, id);
         service.update(userTo);
     }
 
